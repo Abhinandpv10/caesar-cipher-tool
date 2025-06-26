@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caesar Cipher Tool</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: #ffffff;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+      color: #444;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px;
+      width: 48%;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .result {
+      margin-top: 20px;
+      background-color: #eafaf1;
+      border-left: 6px solid #28a745;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .result p {
+      margin: 0;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🔐 Caesar Cipher Tool</h2>
+
+    <label for="message">Enter your message:</label>
+    <textarea id="message" placeholder="Type your message here..."></textarea>
+
+    <label for="shift">Shift value:</label>
+    <input type="number" id="shift" value="3" />
+
+    <div class="button-row">
+      <button onclick="encrypt()">Encrypt</button>
+      <button onclick="decrypt()">Decrypt</button>
+    </div>
+
+    <div class="result" id="resultBox" style="display:none;">
+      <p><strong>Result:</strong></p>
+      <p id="result"></p>
+    </div>
+  </div>
+
+  <script>
+    function caesarCipher(str, shift) {
+      return str.split('').map(char => {
+        let code = char.charCodeAt(0);
+        if (char >= 'A' && char <= 'Z') {
+          return String.fromCharCode((code - 65 + shift + 26) % 26 + 65);
+        } else if (char >= 'a' && char <= 'z') {
+          return String.fromCharCode((code - 97 + shift + 26) % 26 + 97);
+        } else {
+          return char;
+        }
+      }).join('');
+    }
+
+    function encrypt() {
+      let msg = document.getElementById("message").value;
+      let shift = parseInt(document.getElementById("shift").value);
+      let result = caesarCipher(msg, shift);
+      displayResult(result);
+    }
+
+    function decrypt() {
+      let msg = document.getElementById("message").value;
+      let shift = parseInt(document.getElementById("shift").value);
+      let result = caesarCipher(msg, -shift);
+      displayResult(result);
+    }
+
+    function displayResult(text) {
+      document.getElementById("result").textContent = text;
+      document.getElementById("resultBox").style.display = "block";
+    }
+  </script>
+</body>
+</html>
